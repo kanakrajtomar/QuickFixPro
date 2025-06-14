@@ -1,0 +1,33 @@
+name: Next.js Docker Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Build and Push Docker image
+        run: |
+          sudo docker build -t sampurna-web .
+          sudo docker tag sampurna-web sampurnakart/sampurna-web
+          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          sudo docker push sampurnakart/sampurna-web
+
+      - name: SSH into EC2 and pull Docker image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo docker stop sampurna-web || true
+            sudo docker rm sampurna-web || true
+            sudo docker pull sampurnakart/sampurna-web
+            sudo docker run -d --name sampurna-web -p 3000:3000 sampurnakart/sampurna-web
