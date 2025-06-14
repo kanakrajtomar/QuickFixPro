@@ -1,4 +1,4 @@
-QuickService – Frontend Platform
+<h2>QuickService – Frontend Platform</h2><br>
 QuickService is the frontend part of a modern quick-repair platform, similar to how Blinkit operates in the quick-commerce space. This application is designed for rapid on-demand services like AC repair, electrical appliance troubleshooting, and more.
 
 If there's a problem in your AC or any electrical appliance, this platform helps you connect to a quick service technician available 24/7. Users can track technician location, select services, and book repairs instantly – all through an intuitive and seamless UI.
